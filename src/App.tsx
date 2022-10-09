@@ -1,11 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
+import InputField from './components/InputField'
+// declaring the type of the function as react funciton component.
+import { Todo } from './components/model'
+const App: React.FC = () => {
+  const [todo, setTodo] = useState<string>('')
+  const [todos, setTodos] = useState<Todo[]>([])
 
-let name: string
-// name = 7
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault()
 
-function App() {
-  return <div className='App'>Hello World</div>
+    if (todo) {
+      // if something is there in todo:
+      setTodos([...todos, { id: Date.now(), todo, isDone: false }])
+      setTodo('')
+    }
+  }
+
+  console.log(todos)
+  return (
+    <div className='App'>
+      <span className='heading'>Taskify</span>
+      <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
+      {/* <TodoList /> */}
+      {todos.map((t) => (
+        <li>{t.todo}</li>
+      ))}
+    </div>
+  )
 }
 
 export default App
